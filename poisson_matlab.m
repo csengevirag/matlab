@@ -26,3 +26,37 @@ help4 = help3.*vs(:,4); %sorbanallasi ido a halalozasokra
 help4 = nonzeros(help4); %0/k kiszurese
 help4(isnan(help4)) = []; %NaN-ok kiszurese
 S = help4; %kiszolgalasi idok
+ss = vs(vs(:,2)== -1 | (vs(:,2) == 1 & vs(:,3) == 1),:); %halálozási sorok és olyan születési sorok, ahol egy üzenet áll sorban
+diffss = diff(ss(:,1)); %az ss első sorai közötti differencia
+diffss = [diffss(:,1), ss(1:end-1,3)]; %a sorbanálló üzenetek számának hozzáfűzése
+diffsszero = diffss(diffss(:,2) == 0,1); %a nulla sorbanálló üzenetes sorok kiszolgálási ideje
+meandiffsszero = mean(diffsszero); %diffsszero átlaga
+diffsszerocv2 = var(diffsszero)/mean(diffsszero)/mean(diffsszero); %szórásnégyzet
+diffssnonzero = diffss(diffss(:,2) ~= 0,1); %a nem nulla sorbanálló üzenetes sorok kiszolgálási ideje
+%sum(diffssnonzero > 2E9);
+%diffssnonzero(diffssnonzero > 2E9) = [];
+%sum(diffssnonzero < 0);
+%min(diffssnonzero);
+%sum(diffssnonzero == 2480);
+meandiffssnonzero = mean(diffssnonzero); %átlag
+%find(diffss(:,1) == 2480);
+%find(vs(:,1) == [833876781889.000]);
+%format short g
+%vs(31500:31570,:);
+%min(diff(di));
+diffssnonzerocv2 = var(diffssnonzero)/mean(diffssnonzero)/mean(diffssnonzero); %corr számolása manuálisan
+ro = lambda*mean(diffssnonzero)/1E6; %a képlethez ró kiszámolása
+mean(diffssnonzero)*ro/(1-ro)*(1+diffssnonzerocv2)/2;
+mean(diffssnonzero(1:end-1).*diffssnonzero(2:end));
+(mean(diffssnonzero(1:end-1).*diffssnonzero(2:end)) - mean(diffssnonzero)*mean(diffssnonzero))/var(diffssnonzero);
+
+
+
+
+
+
+
+
+
+
+
